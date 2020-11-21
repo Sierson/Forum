@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fontello.css') }}"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <h1>Blog</h1>
+        </div>
+        <nav>
+            <div class="topbar">
+                <ol>
+                    <li><a href="{{ url_for('index') }}"> Strona Główna </a></li>
+                    <li><a href="{{ url_for('entry') }}"> Wpisy </a></li>
+                    {% if user %}
+                    <li><a href="{{ url_for('add_entry') }}"> Dodaj wpis </a></li>
+                    <li><a href="{{ url_for('my_entry') }}"> Moje wpisy </a></li>
+                    {% endif %}
+                    {% if not user %}
+                    <li><a href="{{ url_for('login') }}"> Zaloguj się </a></li>
+                    <li><a href="{{ url_for('register') }}"> Zarejestruj się </a></li>
+                    {% endif %}
+                    {% if user %}
+                    <li><a href="{{ url_for('logout') }}"> Wyloguj się </a></li>
+                    {% endif %}
+                    <div style="clear:both;"></div>
+                </ol>
+            </div>
+        </nav>
+    </header>
+<body>
+        {% block body %}{% endblock %}
+
+
+</html>

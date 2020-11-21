@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Dodaj wpis{% endblock %}
+
+{% block body %}
+<main>
+    <div class="add_entry">
+        <header><h1>Dodaj wpis</h1></header>
+        <article>
+            <form action="{{ url_for('add_entry') }}" method="POST">
+                <input type="text" id="title" name="title" placeholder="Tytuł"><br/>
+                <textarea rows="4" cols="50" id="content_entry" name="content_entry" placeholder="Wpis..."></textarea></br>
+                <input type="submit" value="Dodaj wpis">
+            </form>
+        </article> 
+    </div>
+</main>
+{% endblock %}

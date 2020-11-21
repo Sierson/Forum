@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block body %}
+
+
+    <div class="container">
+        <div class="west">
+            <main>
+                <article>
+                    <header>
+                        {% if user %} hello: {{ user['login'] }} {% endif %}
+                        <h2>Nauka programowania - co muszę wiedzieć?</h2></header>
+
+                    <section>
+                        <header><h3>Bazy Danych</h3></header>
+                        <p>Przede wszystkim backend developer musi wiedzieć, jak efektywnie korzystać z baz danych, które gromadzą wszelkie treści, komentarze, czy content strony WWW. Najpopularniejsze systemy baz danych to darmowe MySQL, PostgreSQL, Firebird, MongoDB, Cassandra i SQLite oraz komercyjne Oracle, Microsoft SQL Server i Sybase od SAP. Jeśli pytasz, co powinien wiedzieć przyszły back-endowiec dobrze, aby znał choćby wybrane spośród powyższych systemów.</p>
+                    </section>
+
+                    <section>
+                    <header><h3>Języki programowania oraz frameworki</h3></header>
+                        <p>Podstawa dla back-endowca to języki wykorzystywane przez serwery: Python, Ruby lub Java. Z biegiem czasu profesjonalny web developer powinien poznać HTML, CSS, JavaScript i PHP. Wszystko po to, aby z back-end developera finalnie stać się uniwersalnym full-stackiem. Do osiągnięcia tego celu niezbędna będzie nam znajomość Node.js – środowiska programistycznego do tworzenia osadzonych na serwerach aplikacji zarówno z perspektywy frontendowej, jak i backendowej.</p>
+                    
+
+                        <p>Java to uniwersalny język oprogramowania, zorientowany na klasy i obiekty, wybierany przede wszystkim dla dużych projektów korporacyjnych. Ruby sprawdzi się w mniejszych i tańszych projektach. Python to najłatwiejszy, najszybszy, najprostszy i najbardziej czytelny z tej trójki język programowania. Idealny na początki z nauką programowania. Do dziś wykorzystują go YouTube i Google.</p>
+                        
+                        <p>Oprócz nauki języka programowania pamiętaj także o zapoznaniu się z wybranym managerem pakietów, który pomoże Ci w wykorzystywaniu w codziennej pracy zewnętrznych   bibliotek, np. Pip dla Pythona.</p>
+                    
+
+                        <p>Szkielety i schematy do budowy aplikacji, tzw. frameworki, przydają się w codziennej pracy back-endowca. Najpopularniejsze z nich to Spring, Express.js, Hibernate, Ruby on Rails, Laravel, Django i Phoenix.</p>
+                    </section>
+
+                    <section>
+                    <header><h3>Systemy kontroli wersji</h3></header>
+                        <p>Back-end developer powinien być zaznajomiony z oprogramowaniem służącym do śledzenia zmian w kodzie źródłowym, czyli systemami kontroli wersji, takimi, jak Git i     Subversion (SVN).</p>
+                    </section>
+                    
+
+                    <header><h3>Dodatkowe umiejętności back-end developera</h3></header>
+                    <p>
+                        <ul>
+                            <li>Podstawowa znajomość języka angielskiego na poziomie B1</li>
+                            <li>Integracje z rozwiązaniami cloudowymi i usługami chmurowymi</li>
+                            <li>Wiedza z zakresu cyberbezpieczeństwa informacji i baz danych</li>
+                            <li>Zrozumienie technologii front-endowych</li>
+                            <li>Zarządzanie kilkoma środowiskami pracy jednocześnie przy użyciu narzędzia Docker (np. developerskie, testowe, produkcyjne i demo dla Klienta)</li>
+                        </ul>
+                    </p>
+
+                </article>
+            </main>
+        </div>
+        <div class="east">
+            <section>
+                <header>
+                    <div class=logonav>
+                        Przydatne linki:
+                    </div>
+                </header>
+                <nav>
+                    <ul class="sidebarul">
+                        <li>Link 1</li>
+                        <li>Link 2</li>
+                        <li>Link 3</li>
+                        <li>Link 4</li>
+                        <li>Link 5</li>
+                        <li>Link 6</li>
+                        <li>Link 7</li>
+                    </ul>
+                </nav>
+            </section>
+        </div>
+        <div style="clear: both;"></div>
+        <footer>
+            <div class="socials">
+        
+                <div class="socialdivs">
+                    <div class="fb"><i class="icon-facebook"></i></div>
+                    <div class="yt"><i class="icon-youtube-squared"></i></div>
+                    <div class="g"><i class="icon-google"></i></div>
+                    <div class="in"><i class="icon-linkedin"></i></div>
+                    <div style="clear:both;"></div>
+                </div>   
+        
+            </div>
+            
+            <div class="credits">
+                Sebastian Sieradzki &copy; Dziękuję za wizytę.
+            </div>
+            
+        </footer>
+    </div>
+    
+
+    
+    
+
+{% endblock %}
