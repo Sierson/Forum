@@ -1,7 +1,8 @@
-from flask import Flask, render_template, redirect, request, url_for, session
+from flask import Flask, render_template, redirect, request, url_for, session, g
 import mysql.connector
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+from database import get_db, init_db
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
@@ -13,22 +14,17 @@ def get_current_user():
         user = session['user']
 
         db = get_db()
-        curr_user = db.cursor(dictionary=True)
-        curr_user.execute('SELECT id, login, password FROM users WHERE login = %s', (user, ))
-        user_results = curr_user.fetchone()
+        db.execute('SELECT id, login, password FROM users WHERE login = %s', (user, ))
+        user_results = db.fetchone()
 
     return user_results
 
-def get_db():
-    my_db = None
-    my_db = mysql.connector.connect(
-        host = "localhost",
-        user = "root",
-        passwd = "passwd",
-        database = "social",
-    )
-    return my_db
+def close_db(error):
+    if hasattr(g, 'postgres_db_cur'):
+        g.postgres_db_cur.close()
 
+    if hasattr(g, 'postgres_db_conn'):
+        g.postgres_db_conn.close()
 
 
 @app.route('/')
@@ -45,9 +41,8 @@ def login():
         login = request.form['login']
         password = request.form['password']
 
-        curr = db.cursor(dictionary=True)
-        curr.execute('SELECT * FROM users WHERE login = %s', (login, ))
-        user_results = curr.fetchone()
+        db.execute('SELECT * FROM users WHERE login = %s', (login, ))
+        user_results = db.fetchone()
         if user_results:
             if check_password_hash(user_results['password'], password):
                 session['user'] = user_results['login']
@@ -65,13 +60,11 @@ def login():
 def register():
     user = get_current_user()
     db = get_db()
-    curr = db.cursor()
     if request.method == 'POST':
         login = request.form['login']
         password = generate_password_hash(request.form['password'], method='sha256')
 
-        curr.execute("INSERT INTO users (login, password) VALUES (%s, %s)", (login, password, ))
-        db.commit()
+        db.execute("INSERT INTO users (login, password) VALUES (%s, %s)", (login, password, ))
         return redirect(url_for('index'))
     return render_template('register.html', user=user)
 
@@ -79,28 +72,24 @@ def register():
 def entry():
     user = get_current_user()
     db = get_db()
-    curr = db.cursor(dictionary=True)
-    curr.execute('SELECT posts.user_id, posts.title, posts.content, users.login from posts INNER JOIN users ON posts.user_id = users.id ORDER BY posts.id DESC')
-    entries = curr.fetchall()
+    db.execute('SELECT posts.user_id, posts.title, posts.content, users.login from posts INNER JOIN users ON posts.user_id = users.id ORDER BY posts.id DESC')
+    entries = db.fetchall()
     return render_template('entry.html', user=user, entries=entries)
 
 @app.route('/add-entry', methods=['GET', 'POST'])
 def add_entry():
     user = get_current_user()
     db = get_db()
-    curr = db.cursor(dictionary=True)
     if request.method == 'POST':
-        curr.execute('INSERT INTO posts (user_id, title, content) VALUES (%s, %s, %s)', (user['id'], request.form['title'], request.form['content_entry']))
-        db.commit()
+        db.execute('INSERT INTO posts (user_id, title, content) VALUES (%s, %s, %s)', (user['id'], request.form['title'], request.form['content_entry']))
     return render_template('add_entry.html', user=user)
 
 @app.route('/my-entry', methods=['GET', 'POST'])
 def my_entry():
     user = get_current_user()
     db = get_db()
-    curr = db.cursor(dictionary=True)
-    curr.execute('SELECT posts.user_id, posts.title, posts.content, users.login from posts INNER JOIN users ON posts.user_id = users.id WHERE posts.user_id = %s ORDER BY posts.id DESC', (user['id'], ))
-    my_entries = curr.fetchall()
+    db.execute('SELECT posts.user_id, posts.title, posts.content, users.login from posts INNER JOIN users ON posts.user_id = users.id WHERE posts.user_id = %s ORDER BY posts.id DESC', (user['id'], ))
+    my_entries = db.fetchall()
     return render_template('my_entry.html', user=user, entries=my_entries)
 
 @app.route('/logout')
