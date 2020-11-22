@@ -5,7 +5,6 @@ import os
 from database import get_db, init_db
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.urandom(24)
 
 
 def get_current_user():
@@ -96,5 +95,9 @@ def my_entry():
 def logout():
     session.pop('user', None)
     return redirect(url_for('index'))
+
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+
 if __name__ == '__main__':
     app.run(debug=True)
+
