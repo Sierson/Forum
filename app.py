@@ -6,7 +6,7 @@ from database import get_db, init_db
 
 app = Flask(__name__)
 
-
+# get some information about currently logged in user (ID, login, password)
 def get_current_user():
     user_results = None
     if 'user' in session:
@@ -44,8 +44,8 @@ def login():
         user_results = db.fetchone()
         if user_results:
             if check_password_hash(user_results['password'], password):
-                session['user'] = user_results['login']
-                return redirect(url_for('index'))
+                session['user'] = user_results['login']                          # if login and password are correct then add session
+                return redirect(url_for('index'))                                # and return user to the home page
             else: 
                 passwd_error = "Password is incorrect"
                 return render_template('login.html', error=passwd_error, user=user)
