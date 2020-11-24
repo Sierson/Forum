@@ -86,10 +86,21 @@ def add_entry():
 @app.route('/my-entry', methods=['GET', 'POST'])
 def my_entry():
     user = get_current_user()
+
     db = get_db()
-    db.execute('SELECT posts.user_id, posts.title, posts.content, users.login from posts INNER JOIN users ON posts.user_id = users.id WHERE posts.user_id = %s ORDER BY posts.id DESC', (user['id'], ))
+    db.execute('SELECT posts.id as posts_id, posts.user_id, posts.title, posts.content, users.login from posts INNER JOIN users ON posts.user_id = users.id WHERE posts.user_id = %s ORDER BY posts.id DESC', (user['id'], ))
     my_entries = db.fetchall()
+
     return render_template('my_entry.html', user=user, entries=my_entries)
+
+@app.route('/delete-entry/<posts_id>', methods=['GET', 'POST'])
+def delete_entry(posts_id):
+    user = get_current_user()
+
+    db = get_db()
+    if request.method == 'POST': 
+        db.execute('DELETE FROM posts WHERE posts.id = %s', (posts_id, ))
+        return redirect(url_for('my_entry'))
 
 @app.route('/logout')
 def logout():
