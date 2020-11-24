@@ -44,7 +44,7 @@ input[type="password"]:focus
     padding:9px;
 }
 
-input[type="submit"]
+.login_register_submit
 {
     width:300px;
     padding:10px;
@@ -61,12 +61,12 @@ input[type="submit"]
     font-family: 'Open Sans', sans-serif;
 }
 
-input[type="submit"]:hover
+.login_register_submit:hover
 {
     background-color: #09AE80;
 }
 
-input[type="submit"]:focus
+.login_register_submit:focus
 {
     background-color: #078863;
 }
